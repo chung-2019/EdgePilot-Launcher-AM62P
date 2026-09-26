@@ -8,13 +8,15 @@ and device diagnostics.
 This repository is a source project. It does not redistribute the TI Processor
 SDK, Qt runtime, vendor SDKs, or prebuilt release binaries.
 
-![EdgePilot Workbench overview](tools/Workbench_photo.png)
-
 ## Interface Previews
 
 ### BLE Numeric-Comparison Pairing
 
 <img src="tools/Numeric_comparison.png" alt="BLE numeric-comparison pairing" width="420">
+
+### EdgePilot Workbench Overview
+
+![EdgePilot Workbench overview](tools/Workbench_photo.png)
 
 ### Earth-Moon 3D Visualization
 
