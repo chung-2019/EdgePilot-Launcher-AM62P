@@ -183,7 +183,7 @@ private:
     // profile match runs against all three at once.
     QString identityNames() const;
     // Apollo510b watchface (advertises as "EdgePilot-510B", Cordio stack).
-    // Numeric-comparison like the Scan3 meters, but its Health Thermometer
+    // Numeric-comparison like the BLE Scan meters, but its Health Thermometer
     // Measurement (0x2A1C) is declared ATT_PROP_INDICATE *only* - the char has
     // no Read property at all (cordio ble-profiles svc_hts.c: htsValTmCh) and
     // the firmware emits its FIRST sample only once the CCCD is armed, then one
