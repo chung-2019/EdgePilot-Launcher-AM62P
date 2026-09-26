@@ -1,0 +1,21 @@
+[Unit]
+Description=Hold AM62P-SK J4 expansion GPIOs high for TMP119 access
+Documentation=file:///opt/ti/processor-sdk-linux-am62pxx/週邊spec/TI_TMP119/TMP119_DEBUG_JOURNEY.md
+# Pulls SoC_I2C2_MCAN_SEL (P20) high so I²C2 SDA/SCL routes to J4
+# (otherwise it goes to MCAN side and TMP119 is unreachable).
+# Pulls EXP_PS_3V3_EN (P05) high so VCC3V3_EXP load switch is enabled.
+# Both GPIO sit on TCA6424A I²C IO Expanders; base DTS does not hog
+# either pin so they default to input/floating after every boot.
+After=systemd-udevd.service
+Before=edgepilot-launcher.service
+
+[Service]
+Type=simple
+# Hold both lines until killed (gpioset blocks while holding).
+# Line names are unique on this board; -s aborts if not unique.
+ExecStart=/usr/bin/gpioset -s SoC_I2C2_MCAN_SEL=1 EXP_PS_3V3_EN=1
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

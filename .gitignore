@@ -1,0 +1,26 @@
+# Build output. build.sh recreates build/ from scratch every run.
+build/
+*.rcc
+*.axf
+*.elf
+*.hex
+*.so
+*.so.*
+
+# WSL / Windows interop leftovers
+*Zone.Identifier*
+
+# Python bytecode (produced when the .pyw tools are byte-compiled)
+__pycache__/
+*.pyc
+
+# Local editor state
+.vscode/*.local.json
+*.user
+*.user.*
+*.qmlproject.user
+*.log
+
+# Peripheral identification. Holds real device names, so it is supplied per
+# deployment rather than committed -- see src/deviceprofiles.h.
+config/device-profiles.json

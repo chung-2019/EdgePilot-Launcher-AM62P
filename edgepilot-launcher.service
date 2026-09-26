@@ -1,0 +1,37 @@
+[Unit]
+Description=EdgePilot Launcher (Qt6 Kiosk)
+Requires=emptty.service
+After=systemd-user-sessions.service emptty.service edgepilot-j4-gpios.service
+Wants=edgepilot-j4-gpios.service
+Conflicts=ti-apps-launcher.service
+# Cap restarts so a broken binary can't pound systemd: up to 5 starts in 30s.
+# Recover with `systemctl reset-failed edgepilot-launcher`.
+StartLimitIntervalSec=30
+StartLimitBurst=5
+
+[Service]
+Type=simple
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+Environment=QT_QPA_PLATFORM=wayland
+Environment=WAYLAND_DISPLAY=wayland-1
+Environment=QML_DISABLE_DISK_CACHE=1
+Environment=QT_DISABLE_SHADER_DISK_CACHE=1
+# Kiosk: tell Qt-Wayland not to draw client-side window decorations
+# (the "_ □ X" title bar). Combined with FramelessWindowHint in QML this
+# guarantees no minimize/close button is ever shown to the operator.
+Environment=QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+EnvironmentFile=-/etc/environment
+
+ExecStartPre=/bin/sh -c 'while [ ! -S /run/user/1000/wayland-1 ]; do sleep 1; done'
+ExecStart=/usr/bin/edgepilot-launcher
+
+# Restart=always so Qt.quit() (clean exit) also triggers a relaunch — this is
+# what gets us out of the bare Weston desktop ("grey grid") when the user
+# taps Power Off in the kiosk UI.
+Restart=always
+RestartSec=1
+User=root
+Group=root
+
+[Install]
+WantedBy=graphical.target multi-user.target

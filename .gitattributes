@@ -1,0 +1,20 @@
+# Everything in this repository is consumed on Linux: the scripts run on a WSL
+# host or on the EVM, and the sources are cross-compiled for aarch64. Checking
+# any of it out with CRLF breaks it -- a shell script with CRLF fails on the
+# board with "bad interpreter: /bin/bash^M" -- so line endings are pinned to LF
+# regardless of the cloning machine's core.autocrlf.
+* text=auto eol=lf
+
+# Binary: never touch these.
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gz    binary
+*.bmp   binary
+*.dtbo  binary
+*.ttf   binary
+*.otf   binary
+
+# The Windows workbench GUI is still a Linux-facing tool (it drives WSL), and
+# Python does not care about line endings, so it follows the same rule.
+*.pyw   text eol=lf

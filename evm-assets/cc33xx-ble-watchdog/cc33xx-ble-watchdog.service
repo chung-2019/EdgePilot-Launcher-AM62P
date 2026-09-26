@@ -1,0 +1,7 @@
+[Unit]
+Description=CC3351 BLE watchdog (re-attach hci0 after Wi-Fi FW recovery)
+After=cc33xx-ble-enable.service bluetooth.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/cc33xx-ble-watchdog.sh

@@ -1,0 +1,10 @@
+[Unit]
+Description=Periodic CC3351 BLE watchdog
+
+[Timer]
+OnBootSec=60
+OnUnitActiveSec=20
+AccuracySec=2s
+
+[Install]
+WantedBy=timers.target
