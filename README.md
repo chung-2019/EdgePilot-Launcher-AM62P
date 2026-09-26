@@ -10,6 +10,16 @@ SDK, Qt runtime, vendor SDKs, or prebuilt release binaries.
 
 ![EdgePilot Workbench overview](tools/Workbench_photo.png)
 
+## Interface Previews
+
+### BLE Numeric-Comparison Pairing
+
+<img src="tools/Numeric_comparison.png" alt="BLE numeric-comparison pairing" width="420">
+
+### Earth-Moon 3D Visualization
+
+<img src="tools/EarthMoon.png" alt="Earth-Moon 3D visualization" width="900">
+
 ## Demos
 
 Recorded on an AM62P-SK EVM.
