@@ -8,6 +8,8 @@ and device diagnostics.
 This repository is a source project. It does not redistribute the TI Processor
 SDK, Qt runtime, vendor SDKs, or prebuilt release binaries.
 
+![EdgePilot Workbench overview](tools/Workbench_photo.png)
+
 ## Demos
 
 Recorded on an AM62P-SK EVM.
