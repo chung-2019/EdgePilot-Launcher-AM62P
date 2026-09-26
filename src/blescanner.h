@@ -145,7 +145,7 @@ private:
     void handleLine(const QString &line);
     void parseTemperatureBytes(const QByteArray &data);
     void subscribeNextTempChar();
-    // long-hold HTS fix: the kernel opens LE links with a 420 ms supervision timeout
+    // Long-hold HTS fix: the kernel opens LE links with a 420 ms supervision timeout
     // and the meter's radio naps longer than that while pre-warming, killing
     // fresh links (HCI 0x08); mid-link parameter updates are equally fatal
     // (12× HCI 0x28 Instant Passed — the napping radio misses the update
@@ -156,7 +156,7 @@ private:
     // (15-30 ms / latency 0 / 4 s timeout): links then start safe from t=0
     // and the firmware skips its own update — zero updates, zero 0x28.
     // Standard-mode connects only.
-    // supervisionUnits ×10 ms. Default 1500 = 15 s for long-hold HTS (covers its radio
+    // supervisionUnits ×10 ms. Default 1500 = 15 s for long-hold HTS meters (covers the radio
     // nap). Numeric-comparison power-cycle meters pass 400 (4 s) so the link's
     // fast 15-30 ms interval speeds GATT discovery WITHOUT slowing disconnect
     // detection on a meter that power-cycles itself.
@@ -196,7 +196,7 @@ private:
     bool isApollo510Device() const;
     // Supervision timeout (x10 ms) handed to loadConnParams() for a
     // numeric-comparison target. Apollo510b holds the link, so it takes
-    // long-hold HTS's long 15 s; the third-party numeric meters power-cycle themselves and
+    // the long-hold HTS profile's 15 s; third-party numeric meters power-cycle themselves and
     // need the short 4 s so their self-disconnect is detected fast.
     quint16 numericSupervisionUnits() const { return isApollo510Device() ? 1500 : 400; }
     // Always-on firmware: connect → bluez `read 2A1C` returns
@@ -210,7 +210,7 @@ private:
     // nothing is dropped.
     bool isAlwaysOnFirmware() const;
     // True for power-cycle meters that need the fast-subscribe strategy:
-    // standard品BLE / long-hold HTS (m_standardMode) OR Scan3 numeric-comparison
+    // standard BLE / long-hold HTS (m_standardMode) OR Scan3 numeric-comparison
     // (m_numericMode). Both must arm the CCCD the instant the link is up
     // (not wait the 4-5 s ServicesResolved), select 0x2A1C by UUID, and skip
     // the indicate-only read — otherwise every reconnect pays a full GATT
@@ -255,7 +255,7 @@ private:
     //     and indicates once per second.
     // Both need the same fast-subscribe strategy as m_standardMode (early CCCD
     // arm, UUID select) so a reconnect doesn't pay the 4-5 s ServicesResolved
-    // wait — but not long-hold HTS's 60 s hold semantics wholesale. The two places
+    // wait — but not the long-hold HTS profile's 60 s hold semantics wholesale. The two places
     // where the classes genuinely differ (the `read`, and the supervision
     // timeout) key off isApollo510Device() rather than this flag.
     bool    m_numericMode { false };

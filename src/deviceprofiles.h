@@ -50,7 +50,7 @@ public:
     // 空清單 = 不對任何裝置訂閱 1524，也不顯示倒數 HUD。
     QStringList vendor1524Tokens() const { return m_vendor1524; }
 
-    // long-hold HTS-class（標準 HTS、連線不放、需要 loadConnParams 的那批）。
+    // Long-hold HTS class（標準 HTS、連線不放、需要 loadConnParams 的那批）。
     // 空清單 = 沒有裝置會被自動切進 standard 模式。
     QStringList longHoldTokens() const { return m_longHold; }
 

@@ -92,7 +92,7 @@ void DeviceProfiles::loadFrom(const QString &path)
     m_memoryMeterPrefix = o.value(QStringLiteral("memoryMeterNamePrefix")).toString().trimmed();
     m_alwaysOn          = toStringList(o.value(QStringLiteral("alwaysOnTokens")));
     m_vendor1524        = toStringList(o.value(QStringLiteral("vendor1524Tokens")));
-    m_longHold           = toStringList(o.value(QStringLiteral("longHoldTokens")));
+    m_longHold          = toStringList(o.value(QStringLiteral("longHoldTokens")));
 
     qCInfo(lcProfiles) << "loaded" << path
                        << "— memoryMeterPrefix:" << (m_memoryMeterPrefix.isEmpty() ? "(none)" : "set")

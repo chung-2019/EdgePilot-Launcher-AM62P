@@ -41,7 +41,7 @@ constexpr int         kCharUuidCount = sizeof(kCharUuids) / sizeof(kCharUuids[0]
 constexpr int kMaxPlaceholderReadRetries = 8;     // ~6.4 s of in-connection polling
 constexpr int kPlaceholderReadIntervalMs = 800;
 
-// Pending-connect protection window (btmon-proven, long-hold HTS 2026-06-18).
+// Pending-connect protection window (btmon-proven on a long-hold HTS meter, 2026-06-18).
 // A long-hold HTS meter naps its radio for a few seconds right after a disconnect and
 // only answers a connect once it re-enters its connectable window. The launcher
 // has three independent reconnect initiators (adv-driven onReconnectTimer,
@@ -594,7 +594,7 @@ void BleScanner::pairDevice(const QString &address)
 
     // Enable the fast-subscribe strategy (early CCCD arm on Connected:yes +
     // UUID select) so each reconnect skips the 4-5 s ServicesResolved wait.
-    // NOT m_standardMode — that would bring long-hold HTS's 15 s supervision / 60 s
+    // NOT m_standardMode — that would bring the long-hold HTS profile's 15 s supervision / 60 s
     // hold, which slows disconnect detection on a meter that power-cycles
     // itself. Both callers land here: BLE Scan 3 / BLE Pair with the third-party
     // power-cycle meters, and BLE Scan with the always-on Apollo510b watch;
@@ -822,7 +822,7 @@ void BleScanner::loadConnParams(const QString &address, quint16 supervisionUnits
     // to 420 ms) — so re-assert it ourselves right before every connect
     // attempt, through the raw MGMT control socket.
     //
-    // The values are EXACTLY what the long-hold HTS firmware itself requests
+    // The values are exactly what the long-hold HTS firmware requests
     // (min 12×1.25=15 ms, max 24×1.25=30 ms, latency 0, timeout 400×10ms=4 s).
     // Matching matters: Zephyr's bt_conn_le_param_update() skips sending its
     // request when the live parameters already satisfy it, so the link runs
@@ -947,7 +947,7 @@ void BleScanner::subscribeNextTempChar()
         // Keep the `read` for numeric-comparison meters (m_numericMode): this
         // firmware pushes its single 2A1C indication very early (before/around
         // connect) and bluez caches it as the characteristic Value — the `read`
-        // is what actually retrieves the temperature here. Only long-hold HTS-class
+        // is what actually retrieves the temperature here. Only long-hold HTS
         // always-on standard HTS (m_standardMode) is indicate-only where `read`
         // returns NotPermitted and merely delays the CCCD arm, so ONLY standard
         // mode skips it. (This is the opposite of the long-hold HTS "去 read" rule.)
@@ -1959,7 +1959,7 @@ void BleScanner::parseTemperatureBytes(const QByteArray &data)
         m_lastTemperatureUnit = QString::fromLatin1(unit);
         if (m_connState != "streaming") setConnState("streaming");
         if (fastSubscribe()) {
-            // long-hold HTS keeps the connection up ~1 min after connecting, so hold
+            // Long-hold HTS keeps the connection up ~1 min after connecting, so hold
             // the link (re-arm the 60 s safety net) rather than dropping it after
             // a reading: further measurements within that minute arrive on this
             // same live connection with no reconnect, and the LED stays solid.
